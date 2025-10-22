@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./", // Define la base para rutas relativas
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "target": "ESNext", // ECMAScript más reciente
+        "module": "ESNext", // Soporte para import/export
+        "moduleResolution": "node", // Resolución de módulos para Node.js
+        "checkJs": true, // Habilita la verificación de errores en archivos JS
+        "types": [], // ❌ Desactiva tipos de bibliotecas externas
+        "allowSyntheticDefaultImports": true, // Permite imports sin necesidad de usar .default
+        "skipLibCheck": true,
+        "isolatedModules": true,
+        "allowJs": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "noEmit": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "jsx": "react-jsx",
+        "skipDefaultLibCheck": true,
+    },
+    "include": [
+        "/**/*"
+    ], // Incluye todos los archivos en src/
+    "exclude": ["node_modules", "dist", "**/dist/**/*", "*.html", "*.zip", "output", "input", "logs", "storage"] // Excluye node_modules y dist/
+}
