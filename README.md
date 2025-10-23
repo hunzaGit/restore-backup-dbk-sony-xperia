@@ -15,6 +15,7 @@
    * [📂 Result structure](#-result-structure)
    * [🔍 What the script does internally](#-what-the-script-does-internally)
    * [💡 Note on restoring application data](#-note-on-restoring-application-data)
+   * [⚠️ Troubleshooting](#-troubleshooting)
    * [📄 License](#-license)
    * [🤝 Contributions](#-contributions)
    * [📧 Support](#-support)
@@ -27,7 +28,7 @@ English | [Español](README.es.md)
 A Node.js script to restore and rebuild the file structure of old Sony Xperia `.dbk` backups created with Sony PC Companion.
 
 **Important**: This script only restores the **original directory tree of the phone**, not the **data or application information**.  
-For more details, see the section [💡 Note on restoring application data](#-Note-on-restoring-application-data).
+For more details, see the section [💡 Note on restoring application data](#-note-on-restoring-application-data).
 
 ## 📖 Why does this project exist?
 
@@ -201,7 +202,7 @@ I have not tested them personally, so **I cannot guarantee their functionality o
 
 > Use this information at your own risk.
 
-Troubleshooting
+## ⚠️ Troubleshooting
 
 If the script cannot locate the `FileSystem.xml` file or the `Content` directory, you will see a clear error message indicating what is missing. Ensure that the paths you provided are correct and that the files exist.
 
