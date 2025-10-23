@@ -11,6 +11,7 @@
       + [Uso básico con archivos en el mismo directorio](#uso-básico-con-archivos-en-el-mismo-directorio)
       + [Uso avanzado con rutas personalizadas](#uso-avanzado-con-rutas-personalizadas)
       + [Ver la ayuda del script](#ver-la-ayuda-del-script)
+      + [🧪 Directorio `sandbox` (ejemplo de uso)](#-directorio-sandbox-ejemplo-de-uso)
    * [📂 Estructura del resultado](#-estructura-del-resultado)
    * [🔍 Qué hace el script internamente](#-qué-hace-el-script-internamente)
    * [💡 Nota sobre la restauración de datos de aplicaciones](#-nota-sobre-la-restauración-de-datos-de-aplicaciones)
@@ -94,6 +95,9 @@ Extrae todo el contenido a una carpeta nueva. Dentro encontrarás varios archivo
 
 El script ofrece flexibilidad total en cuanto a dónde están ubicados tus archivos. No necesitas mover nada al directorio del proyecto.
 
+
+
+
 ### Uso básico con archivos en el mismo directorio
 
 Si colocaste el script en el mismo directorio donde extrajiste el backup, simplemente ejecuta:
@@ -143,6 +147,21 @@ node restore-backup.js --help
 ```
 
 Esto mostrará un resumen de los parámetros disponibles y ejemplos de uso.
+
+### 🧪 Directorio `sandbox` (ejemplo de uso)
+
+El repositorio incluye un directorio llamado `sandbox/` con un **ejemplo mínimo** que muestra cómo funciona el script sin necesidad de un backup real.
+
+Dentro encontrarás:
+- `FileSystem.xml` — un archivo XML de ejemplo con la estructura de directorios y referencias a archivos.  
+- `Content/` — carpeta con tres archivos de muestra.  
+- `output/` — carpeta donde se generará la restauración al ejecutar el script.
+
+Para probar el script con este ejemplo, ejecuta desde la raíz del proyecto:
+
+```bash
+node restore-backup.js ./sandbox/FileSystem.xml ./sandbox/Content ./sandbox/output
+```
 
 ## 📂 Estructura del resultado
 

@@ -12,6 +12,7 @@
       + [Basic usage with files in the same directory](#basic-usage-with-files-in-the-same-directory)
       + [Advanced usage with custom paths](#advanced-usage-with-custom-paths)
       + [Viewing script help](#viewing-script-help)
+      + [🧪 `sandbox` directory (example of use)](#-sandbox-directory-example-of-use)
    * [📂 Result structure](#-result-structure)
    * [🔍 What the script does internally](#-what-the-script-does-internally)
    * [💡 Note on restoring application data](#-note-on-restoring-application-data)
@@ -143,6 +144,22 @@ node restore-backup.js --help
 ```
 
 This will display a summary of the available parameters and examples of use.
+
+
+### 🧪 `sandbox` directory (example of use)
+
+The repository includes a directory called `sandbox/` with a **minimal example** that shows how the script works without the need for an actual backup.
+
+Inside you will find:
+- `FileSystem.xml` — an example XML file with the directory structure and file references.  
+- `Content/` — folder with three sample files.
+- `output/` — folder where the restoration will be generated when the script is executed.
+
+To test the script with this example, run from the project root:
+
+```bash
+node restore-backup.js ./sandbox/FileSystem.xml ./sandbox/Content ./sandbox/output
+```
 
 ## 📂 Result structure
 
