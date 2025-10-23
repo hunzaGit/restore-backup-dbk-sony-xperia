@@ -1,24 +1,4 @@
-<<<<<<< HEAD
-# Índice
-- [Sony Xperia Backup Restorer](#Sony-Xperia-Backup-Restorer)
-  - [📖 ¿Por qué existe este proyecto?](#-por-qué-existe-este-proyecto)
-    - [El problema técnico](#El-problema-técnico)
-  - [🎯 ¿Qué hace este script?](#-qué-hace-este-script)
-  - [🔧 Requisitos previos](#-Requisitos-previos)
-  - [📦 Instalación](#-Instalación)
-  - [🚀 Preparación del backup](#-Preparación-del-backup)
-  - [💻 Uso del script](#-Uso-del-script)
-    - [Uso básico con archivos en el mismo directorio](#Uso-básico-con-archivos-en-el-mismo-directorio)
-    - [Uso avanzado con rutas personalizadas](#Uso-avanzado-con-rutas-personalizadas)
-    - [Ver la ayuda del script](#Ver-la-ayuda-del-script)
-  - [📂 Estructura del resultado](#-Estructura-del-resultado)
-  - [🔍 Qué hace el script internamente](#-Qué-hace-el-script-internamente)
-  - [💡 Nota sobre la restauración de datos de aplicaciones](#-Nota-sobre-la-restauración-de-datos-de-aplicaciones)
-  - [⚠️ Solución de problemas](#-Solución-de-problemas)
-  - [📄 Licencia](#-Licencia)
-  - [🤝 Contribuciones](#-Contribuciones)
-  - [📧 Soporte](#-Soporte)
-=======
+
 # Index
 <!-- TOC start -->
 - [Sony Xperia Backup Restorer](#sony-xperia-backup-restorer)
@@ -40,19 +20,12 @@
    * [📧 Support](#-support)
 <!-- TOC end -->
 
->>>>>>> fcaf44e (add english readme and spanish readme)
-
-
 # Sony Xperia Backup Restorer
 
 English | [Español](README.es.md)
 
 A Node.js script to restore and rebuild the file structure of old Sony Xperia `.dbk` backups created with Sony PC Companion.
 
-<<<<<<< HEAD
-**Importante**: Este script solo restaura el **árbol de directorios original del teléfono**, no la **data ni la información de las aplicaciones**.  
-Para más detalles, consulta la sección [💡 Nota sobre la restauración de datos de aplicaciones](#-Nota-sobre-la-restauración-de-datos-de-aplicaciones).
-=======
 **Important**: This script only restores the **original directory tree of the phone**, not the **data or application information**.  
 For more details, see the section [💡 Note on restoring application data](#-Note-on-restoring-application-data).
 
@@ -63,7 +36,6 @@ Years ago, Sony Xperia devices used an application called **Sony PC Companion** 
 Over time, Sony discontinued PC Companion, and the application stopped working on modern operating systems. This left many users with valuable backups containing photos, music, documents, and other important files, but with no easy way to access them.
 
 Although there are commercial tools such as Amrak PhoneMiner that promise to extract these backups, many of them no longer work properly in 2025 or have significant limitations.
->>>>>>> fcaf44e (add english readme and spanish readme)
 
 
 ### The technical problem
