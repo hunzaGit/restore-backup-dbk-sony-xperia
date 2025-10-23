@@ -2,31 +2,31 @@
 - [Sony Xperia Backup Restorer](#Sony-Xperia-Backup-Restorer)
   - [📖 ¿Por qué existe este proyecto?](#-por-qué-existe-este-proyecto)
     - [El problema técnico](#El-problema-técnico)
-  - [🎯 ¿Qué hace este script?](#-qué-hace-este-script)
-  - [🔧 Requisitos previos](#-Requisitos-previos)
-  - [📦 Instalación](#-Instalación)
-  - [🚀 Preparación del backup](#-Preparación-del-backup)
-  - [💻 Uso del script](#-Uso-del-script)
+  - [🎯 ¿Qué hace este script?](#🎯-¿Qué-hace-este-script)
+  - [🔧 Requisitos previos](#🔧-Requisitos-previos)
+  - [📦 Instalación](#📦-Instalación)
+  - [🚀 Preparación del backup](#🚀-Preparación-del-backup)
+  - [💻 Uso del script](#💻-Uso-del-script)
     - [Uso básico con archivos en el mismo directorio](#Uso-básico-con-archivos-en-el-mismo-directorio)
     - [Uso avanzado con rutas personalizadas](#Uso-avanzado-con-rutas-personalizadas)
     - [Ver la ayuda del script](#Ver-la-ayuda-del-script)
-  - [📂 Estructura del resultado](#-Estructura-del-resultado)
-  - [🔍 Qué hace el script internamente](#-Qué-hace-el-script-internamente)
-  - [💡 Nota sobre la restauración de datos de aplicaciones](#-Nota-sobre-la-restauración-de-datos-de-aplicaciones)
-  - [⚠️ Solución de problemas](#-Solución-de-problemas)
-  - [📄 Licencia](#-Licencia)
-  - [🤝 Contribuciones](#-Contribuciones)
-  - [📧 Soporte](#-Soporte)
+  - [📂 Estructura del resultado](#📂-Estructura-del-resultado)
+  - [🔍 Qué hace el script internamente](#🔍-Qué-hace-el-script-internamente)
+  - [💡 Nota sobre la restauración de datos de aplicaciones](#💡-Nota-sobre-la-restauración-de-datos-de-aplicaciones)
+  - [⚠️ Solución de problemas](#⚠️-Solución-de-problemas)
+  - [📄 Licencia](#📄-Licencia)
+  - [🤝 Contribuciones](#🤝-Contribuciones)
+  - [📧 Soporte](#📧-Soporte)
 
 
 # Sony Xperia Backup Restorer
 
-English | [Español](README.es.md)
+[English](README.md) | Español
 
 Un script de Node.js para restaurar y reconstruir la estructura de archivos de backups `.dbk` antiguos de Sony Xperia creados con Sony PC Companion.
 
 **Importante**: Este script solo restaura el **árbol de directorios original del teléfono**, no la **data ni la información de las aplicaciones**.  
-Para más detalles, consulta la sección [💡 Nota sobre la restauración de datos de aplicaciones](#-Nota-sobre-la-restauración-de-datos-de-aplicaciones).
+Para más detalles, consulta la sección [💡 Nota sobre la restauración de datos de aplicaciones](#💡-nota-sobre-la-restauración-de-datos-de-aplicaciones).
 
 
 ## 📖 ¿Por qué existe este proyecto?
