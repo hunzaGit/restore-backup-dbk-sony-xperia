@@ -24,7 +24,7 @@
 Un script de Node.js para restaurar y reconstruir la estructura de archivos de backups `.dbk` antiguos de Sony Xperia creados con Sony PC Companion.
 
 **Importante**: Este script solo restaura el **árbol de directorios original del teléfono**, no la **data ni la información de las aplicaciones**.  
-Para más detalles, consulta la sección [💡 Nota sobre la restauración de datos de aplicaciones](#💡-nota-sobre-la-restauración-de-datos-de-aplicaciones).
+Para más detalles, consulta la sección [💡 Nota sobre la restauración de datos de aplicaciones](#-Nota-sobre-la-restauración-de-datos-de-aplicaciones).
 
 
 ## 📖 ¿Por qué existe este proyecto?
