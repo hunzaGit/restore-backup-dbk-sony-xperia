@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import xml2js from 'xml2js'
 
-// Configuración desde argumentos de línea de comandos
+// Configuration from command line arguments
 const args = process.argv.slice(2)
 const CONFIG = {
     xmlFile: args[0] || 'FileSystem.xml',
@@ -10,17 +10,17 @@ const CONFIG = {
     outputDir: args[2] || 'Restored',
 }
 
-// Mostrar ayuda si se solicita
+// Display help if requested
 if (args.includes('--help') || args.includes('-h')) {
     console.log(`
-Uso: node restore-backup.js [xmlFile] [contentDir] [outputDir]
+Usage: node restore-backup.js [xmlFile] [contentDir] [outputDir]
 
-Parámetros:
-  xmlFile     Ruta al archivo FileSystem.xml (default: FileSystem.xml)
-  contentDir  Ruta al directorio Content (default: Content)
-  outputDir   Directorio de salida (default: Restored)
+Parameters:
+  xmlFile     Path to the FileSystem.xml file (default: FileSystem.xml)
+  contentDir  Path to the Content directory (default: Content)
+  outputDir   Output directory (default: Restored)
 
-Ejemplos:
+Examples:
   node restore-backup.js
   node restore-backup.js /backup/FileSystem.xml /backup/Content
   node restore-backup.js ./data/FileSystem.xml ./data/Content ./output
@@ -28,42 +28,42 @@ Ejemplos:
     process.exit(0)
 }
 
-// Crear directorios recursivamente
+// Create directories recursively
 function ensureDir(dirPath) {
     if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, {recursive: true})
     }
 }
 
-// Copiar y renombrar archivo
+// Copy and rename file
 function copyAndRenameFile(contentId, targetPath, modified) {
     const sourceFile = path.join(CONFIG.contentDir, contentId)
 
     if (!fs.existsSync(sourceFile)) {
-        console.warn(`⚠️  Archivo no encontrado: ${contentId}`)
+        console.warn(`⚠️  File not found: ${contentId}`)
         return false
     }
 
     try {
         fs.copyFileSync(sourceFile, targetPath)
 
-        // Restaurar fecha de modificación
+        // Restore modification date
         if (modified) {
             try {
                 const modifiedDate = parseDate(modified)
                 fs.utimesSync(targetPath, modifiedDate, modifiedDate)
             } catch (error) {
-                // Fecha inválida, continuar sin error
+                // Invalid date, continue without error
             }
         }
         return true
     } catch (error) {
-        console.error(`❌ Error copiando ${contentId}: ${error.message}`)
+        console.error(`❌ Error copying ${contentId}: ${error.message}`)
         return false
     }
 }
 
-// Parsear fecha en formato ISO (20120816T091108Z)
+// Parse date in ISO format (20120816T091108Z)
 function parseDate(dateStr) {
     const year = dateStr.substring(0, 4)
     const month = dateStr.substring(4, 6)
@@ -75,9 +75,9 @@ function parseDate(dateStr) {
     return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}Z`)
 }
 
-// Procesar elemento (puede ser carpeta o archivo)
+//  Process item (can be a folder or file)
 function processContent(content, currentPath, stats) {
-    // Procesar archivos en el nivel actual
+    // Process files at the current level
     if (content.File) {
         const files = Array.isArray(content.File) ? content.File : [content.File]
 
@@ -97,7 +97,7 @@ function processContent(content, currentPath, stats) {
         })
     }
 
-    // Procesar subcarpetas
+    // Process subfolders
     if (content.Folder) {
         const folders = Array.isArray(content.Folder) ? content.Folder : [content.Folder]
 
@@ -109,38 +109,38 @@ function processContent(content, currentPath, stats) {
             ensureDir(folderPath)
             stats.folders++
 
-            // Procesar contenido de la subcarpeta recursivamente
+            // Process contents of subfolder recursively
             processContent(folder, folderPath, stats)
         })
     }
 }
 
-// Función principal
+// Primary function
 async function restoreBackup() {
-    console.log('🚀 Iniciando restauración de backup...\n')
+    console.log('🚀 Starting backup restoration...\n')
 
-    // Verificar archivos necesarios
+    // Check necessary files
     if (!fs.existsSync(CONFIG.xmlFile)) {
-        console.error(`❌ No se encuentra: ${CONFIG.xmlFile}`)
+        console.error(`❌ Not found: ${CONFIG.xmlFile}`)
         process.exit(1)
     }
 
     if (!fs.existsSync(CONFIG.contentDir)) {
-        console.error(`❌ No se encuentra el directorio: ${CONFIG.contentDir}`)
+        console.error(`❌ Directory not found: ${CONFIG.contentDir}`)
         process.exit(1)
     }
 
-    // Leer y parsear XML
-    console.log(`📖 Leyendo ${CONFIG.xmlFile}...`)
+    // Reading and parsing XML
+    console.log(`📖 Reading ${CONFIG.xmlFile}...`)
     const xmlData = fs.readFileSync(CONFIG.xmlFile, 'utf-8')
 
     const parser = new xml2js.Parser()
     const result = await parser.parseStringPromise(xmlData)
 
-    // Crear directorio de salida
+    // Create output directory
     ensureDir(CONFIG.outputDir)
 
-    // Procesar volúmenes
+    // Process volumes
     const volumes = result.FileSystem.Volume
     const volumeList = Array.isArray(volumes) ? volumes : [volumes]
 
@@ -148,32 +148,32 @@ async function restoreBackup() {
 
     volumeList.forEach(volume => {
         const volumeLocation = volume.$.Location
-        // Limpiar nombre del volumen (quitar \ iniciales y espacios)
+        // Clean volume name (remove initials and spaces)
         const volumeName = volumeLocation.replace(/^\\+/, '').trim()
         const volumePath = path.join(CONFIG.outputDir, volumeName)
 
-        console.log(`\n💾 Volumen: ${volumeName}`)
-        console.log(`   Tipo: ${volume.$.Type}\n`)
+        console.log(`\n💾 Volume: ${volumeName}`)
+        console.log(`   Type: ${volume.$.Type}\n`)
 
         ensureDir(volumePath)
 
-        // Procesar contenido del volumen
+        // Process volume contents
         if (volume.Content && volume.Content.length > 0) {
             processContent(volume.Content[0], volumePath, totalStats)
         }
     })
 
-    // Resumen final
-    console.log('\n✅ Restauración completada!')
-    console.log(`   📁 Carpetas: ${totalStats.folders}`)
-    console.log(`   📄 Archivos: ${totalStats.files}`)
+    // Final summary
+    console.log('\n✅ Restoration complete!')
+    console.log(`   📁 Folders: ${totalStats.folders}`)
+    console.log(`   📄 Files: ${totalStats.files}`)
     if (totalStats.errors > 0) {
-        console.log(`   ❌ Errores: ${totalStats.errors}`)
+        console.log(`   ❌ Errors: ${totalStats.errors}`)
     }
 }
 
-// Ejecutar
+// Execute
 restoreBackup().catch(error => {
-    console.error('❌ Error fatal:', error)
+    console.error('❌ Fatal error:', error)
     process.exit(1)
 })
