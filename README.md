@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Índice
 - [Sony Xperia Backup Restorer](#Sony-Xperia-Backup-Restorer)
   - [📖 ¿Por qué existe este proyecto?](#-por-qué-existe-este-proyecto)
@@ -17,142 +18,170 @@
   - [📄 Licencia](#-Licencia)
   - [🤝 Contribuciones](#-Contribuciones)
   - [📧 Soporte](#-Soporte)
+=======
+# Index
+<!-- TOC start -->
+- [Sony Xperia Backup Restorer](#sony-xperia-backup-restorer)
+   * [📖 Why does this project exist?](#-why-does-this-project-exist)
+      + [The technical problem](#the-technical-problem)
+   * [🎯 What does this script do?](#-what-does-this-script-do)
+   * [🔧 Prerequisites](#-prerequisites)
+   * [📦 Installation](#-installation)
+   * [🚀 Preparing the backup](#-preparing-the-backup)
+   * [💻 Using the script](#-using-the-script)
+      + [Basic usage with files in the same directory](#basic-usage-with-files-in-the-same-directory)
+      + [Advanced usage with custom paths](#advanced-usage-with-custom-paths)
+      + [Viewing script help](#viewing-script-help)
+   * [📂 Result structure](#-result-structure)
+   * [🔍 What the script does internally](#-what-the-script-does-internally)
+   * [💡 Note on restoring application data](#-note-on-restoring-application-data)
+   * [📄 License](#-license)
+   * [🤝 Contributions](#-contributions)
+   * [📧 Support](#-support)
+<!-- TOC end -->
+
+>>>>>>> fcaf44e (add english readme and spanish readme)
 
 
 # Sony Xperia Backup Restorer
 
 English | [Español](README.es.md)
 
-Un script de Node.js para restaurar y reconstruir la estructura de archivos de backups `.dbk` antiguos de Sony Xperia creados con Sony PC Companion.
+A Node.js script to restore and rebuild the file structure of old Sony Xperia `.dbk` backups created with Sony PC Companion.
 
+<<<<<<< HEAD
 **Importante**: Este script solo restaura el **árbol de directorios original del teléfono**, no la **data ni la información de las aplicaciones**.  
 Para más detalles, consulta la sección [💡 Nota sobre la restauración de datos de aplicaciones](#-Nota-sobre-la-restauración-de-datos-de-aplicaciones).
+=======
+**Important**: This script only restores the **original directory tree of the phone**, not the **data or application information**.  
+For more details, see the section [💡 Note on restoring application data](#-Note-on-restoring-application-data).
+
+## 📖 Why does this project exist?
+
+Years ago, Sony Xperia devices used an application called **Sony PC Companion** to create full backups of the phone. These backups were saved in files with the `.dbk` extension, which contained all the device's data in a compressed and structured form.
+
+Over time, Sony discontinued PC Companion, and the application stopped working on modern operating systems. This left many users with valuable backups containing photos, music, documents, and other important files, but with no easy way to access them.
+
+Although there are commercial tools such as Amrak PhoneMiner that promise to extract these backups, many of them no longer work properly in 2025 or have significant limitations.
+>>>>>>> fcaf44e (add english readme and spanish readme)
 
 
-## 📖 ¿Por qué existe este proyecto?
+### The technical problem
 
-Hace años, los dispositivos Sony Xperia utilizaban una aplicación llamada **Sony PC Companion** para crear backups completos del teléfono. Estos backups se guardaban en archivos con extensión `.dbk`, que contenían todos los datos del dispositivo de forma comprimida y estructurada.
+`.dbk` files are actually ZIP files in disguise. If you change the extension from `.dbk` to `.zip` and open it with tools such as 7-Zip on Windows or Keka on macOS, you will find the backup content. However, this is where the real challenge arises:
 
-Con el tiempo, Sony descontinuó PC Companion y la aplicación dejó de funcionar en sistemas operativos modernos. Esto dejó a muchos usuarios con backups valiosos que contenían fotos, música, documentos y otros archivos importantes, pero sin una forma sencilla de acceder a ellos.
+All files are stored in a single directory called `Content`, and each file has a cryptic name based on a UUID identifier, such as `{EC2A94C2-3372-413C-AB83-4B644D2CB0EC}.mp3`. There is no way to know which file is which or where it was originally located on your phone. A vacation photo might be named `{A1B2C3D4-...}.jpg` and an important document `{E5F6G7H8-...}.pdf`, with no clue as to their actual content.
 
-Aunque existen herramientas comerciales como Amrak PhoneMiner que prometen extraer estos backups, muchas de ellas ya no funcionan correctamente en 2025 o tienen limitaciones significativas.
+The key to solving this puzzle lies in an XML file called `FileSystem.xml`, which is also found inside the backup. This file contains a complete map of the original directory structure, with the actual file names and a reference to which UUID each one corresponds to.
 
-### El problema técnico
+## 🎯 What does this script do?
 
-Los archivos `.dbk` son en realidad archivos ZIP disfrazados. Si cambias la extensión de `.dbk` a `.zip` y lo abres con herramientas como 7-Zip en Windows o Keka en macOS, encontrarás el contenido del backup. Sin embargo, aquí surge el verdadero desafío:
+This script automates the entire process of restoring files from the backup. It reads the `FileSystem.xml` file, interprets the original folder structure of your phone, and then reconstructs that entire structure by copying and renaming each file in the `Content` directory to its correct location and name.
 
-Todos los archivos están almacenados en un único directorio llamado `Content`, y cada archivo tiene un nombre críptico basado en un identificador UUID, como `{EC2A94C2-3372-413C-AB83-4B644D2CB0EC}.mp3`. No hay forma de saber qué archivo es cuál ni dónde estaba ubicado originalmente en tu teléfono. Una foto de vacaciones podría llamarse `{A1B2C3D4-...}.jpg` y un documento importante `{E5F6G7H8-...}.pdf`, sin ninguna pista sobre su contenido real.
+The result is an exact replica of how your files were organized on your Sony Xperia phone, with all the original file names, the folder hierarchy intact, and even the modification dates restored.
 
-La clave para resolver este rompecabezas está en un archivo XML llamado `FileSystem.xml`, que también se encuentra dentro del backup. Este archivo contiene un mapa completo de la estructura de directorios original, con los nombres reales de los archivos y una referencia a qué UUID corresponde cada uno.
+## 🔧 Prerequisites
 
-## 🎯 ¿Qué hace este script?
+To use this script, you need to have Node.js installed on your system. Node.js is a JavaScript runtime environment that allows you to run scripts outside of the browser. You can download it from [nodejs.org](https://nodejs.org/).
 
-Este script automatiza el proceso completo de restauración de ficheros del backup. Lee el archivo `FileSystem.xml`, interpreta la estructura de carpetas original de tu teléfono, y luego reconstruye toda esa estructura copiando y renombrando cada archivo del directorio `Content` a su ubicación y nombre correctos.
+Once Node.js is installed, you will need to install a dependency called `xml2js`, which is a library that helps read and process XML files in JavaScript. This installation is done automatically with a single command that we will explain later.
 
-El resultado es una réplica exacta de cómo estaban organizados tus archivos en el teléfono Sony Xperia, con todos los nombres de archivo originales, la jerarquía de carpetas intacta, e incluso las fechas de modificación restauradas.
+## 📦 Installation
 
-## 🔧 Requisitos previos
-
-Para usar este script necesitas tener Node.js instalado en tu sistema. Node.js es un entorno de ejecución de JavaScript que permite ejecutar scripts fuera del navegador. Puedes descargarlo desde [nodejs.org](https://nodejs.org/).
-
-Una vez instalado Node.js, necesitarás instalar una dependencia llamada `xml2js`, que es una biblioteca que ayuda a leer y procesar archivos XML en JavaScript. Esta instalación se hace automáticamente con un solo comando que explicaremos más adelante.
-
-## 📦 Instalación
-
-Primero, descarga o clona este repositorio en tu computadora. Si tienes Git instalado, puedes clonar el repositorio con este comando:
+First, download or clone this repository to your computer. If you have Git installed, you can clone the repository with this command:
 
 ```bash
 git clone https://github.com/hunzaGit/restore-backup-dbk-sony-xperia.git
 cd restore-backup-dbk-sony-xperia
 ```
 
-Si no usas Git, simplemente descarga el archivo ZIP del repositorio desde GitHub y extráelo en una carpeta de tu elección.
+If you don't use Git, simply download the ZIP file from the repository on GitHub and extract it to a folder of your choice.
 
-Una vez que tengas los archivos del proyecto, abre una terminal o línea de comandos en esa carpeta y ejecuta:
+Once you have the project files, open a terminal or command line in that folder and run:
 
 ```bash
 npm install
 ```
 
-Este comando instalará automáticamente la biblioteca `xml2js` que el script necesita para funcionar.
+This command will automatically install the `xml2js` library that the script needs to run.
 
-## 🚀 Preparación del backup
+## 🚀 Preparing the backup
 
-Antes de usar el script, necesitas extraer el contenido de tu archivo `.dbk`. Sigue estos pasos cuidadosamente:
+Before using the script, you need to extract the contents of your `.dbk` file. Follow these steps carefully:
 
-Primero, localiza tu archivo de backup, que tendrá un nombre similar a `backup_2015-08-20.dbk` o algo parecido. Haz una copia de este archivo en una ubicación segura, ya que modificaremos el original.
+First, locate your backup file, which will have a name similar to `backup_2015-08-20.dbk` or something similar. Make a copy of this file in a safe location, as we will be modifying the original.
 
-Ahora viene el truco: cambia la extensión del archivo de `.dbk` a `.zip`. En Windows, si no ves las extensiones de archivo, primero debes habilitarlas yendo a las opciones de carpeta. En macOS, puedes hacer clic derecho sobre el archivo, seleccionar "Obtener información" y cambiar la extensión allí.
+Now comes the trick: change the file extension from `.dbk` to `.zip`. In Windows, if you don't see file extensions, you must first enable them by going to folder options. In macOS, you can right-click on the file, select “Get Info,” and change the extension there.
 
-Una vez que el archivo se llame `backup_2015-08-20.zip`, ábrelo con tu programa de descompresión favorito. En Windows puedes usar 7-Zip, WinRAR o el descompresor integrado. En macOS puedes usar Keka, The Unarchiver o el descompresor nativo.
+Once the file is named `backup_2015-08-20.zip`, open it with your favorite decompression program. In Windows, you can use 7-Zip, WinRAR, or the built-in decompressor. In macOS, you can use Keka, The Unarchiver, or the native decompressor.
 
-Extrae todo el contenido a una carpeta nueva. Dentro encontrarás varios archivos y directorios, pero los que nos interesan son específicamente dos: el directorio llamado `Files/Content` (que contiene todos tus archivos con nombres UUID) y el archivo `Files/FileSystem.xml` (que contiene el mapa de la estructura).
+Extract all the contents to a new folder. Inside, you will find several files and directories, but we are specifically interested in two: the directory called `Files/Content` (which contains all your files with UUID names) and the file `Files/FileSystem.xml` (which contains the structure map).
 
-## 💻 Uso del script
+## 💻 Using the script
 
-El script ofrece flexibilidad total en cuanto a dónde están ubicados tus archivos. No necesitas mover nada al directorio del proyecto.
+The script offers complete flexibility in terms of where your files are located. You don't need to move anything to the project directory.
 
-### Uso básico con archivos en el mismo directorio
+### Basic usage with files in the same directory
 
-Si colocaste el script en el mismo directorio donde extrajiste el backup, simplemente ejecuta:
+If you placed the script in the same directory where you extracted the backup, simply run:
 
 ```bash
 node restore-backup.js
 ```
 
-El script buscará automáticamente `FileSystem.xml` y el directorio `Content` en la ubicación actual, y creará una carpeta llamada `Restored` con todos tus archivos recuperados.
+The script will automatically search for `FileSystem.xml` and the `Content` directory in the current location, and create a folder called `Restored` with all your recovered files.
 
-### Uso avanzado con rutas personalizadas
+### Advanced usage with custom paths
 
-Lo más probable es que quieras mantener tus archivos de backup en su propia ubicación. El script acepta hasta tres parámetros opcionales que puedes especificar en orden:
+You will most likely want to keep your backup files in their own location. The script accepts up to three optional parameters that you can specify in order:
 
-El primer parámetro es la ruta al archivo `FileSystem.xml`. El segundo parámetro es la ruta al directorio `Content`. El tercer parámetro es la ruta donde quieres que se guarden los archivos restaurados.
+The first parameter is the path to the `FileSystem.xml` file. The second parameter is the path to the `Content` directory. The third parameter is the path where you want the restored files to be saved.
 
-Por ejemplo, si extrajiste tu backup en `C:\Backups\Sony\` en Windows, ejecutarías:
-
-```bash
-node restore-backup.js "C:\Backups\Sony\FileSystem.xml" "C:\Backups\Sony\Content" "C:\Restaurado"
-```
-
-En macOS o Linux, con rutas Unix, sería algo como:
+For example, if you extracted your backup to `C:\Backups\Sony\` on Windows, you would run:
 
 ```bash
-node restore-backup.js /Users/tu-usuario/Backups/Sony/FileSystem.xml /Users/tu-usuario/Backups/Sony/Content /Users/tu-usuario/Recuperado
+node restore-backup.js “C:\Backups\Sony\FileSystem.xml” “C:\Backups\Sony\Content” “C:\Restored”
 ```
 
-También puedes usar rutas relativas. Si el backup está en una carpeta llamada `backup` dentro de tu directorio de usuario, podrías ejecutar:
+On macOS or Linux, with Unix paths, it would be something like:
 
 ```bash
-node restore-backup.js ~/backup/FileSystem.xml ~/backup/Content ~/Restaurado
+node restore-backup.js /Users/your-username/Backups/Sony/FileSystem.xml /Users/your-username/Backups/Sony/Content /Users/your-username/Restored
 ```
 
-Si solo quieres especificar las rutas de entrada pero usar el directorio de salida predeterminado, simplemente omite el tercer parámetro:
+You can also use relative paths. If the backup is in a folder called `backup` within your user directory, you could run:
 
 ```bash
-node restore-backup.js /ruta/al/FileSystem.xml /ruta/al/Content
+node restore-backup.js ~/backup/FileSystem.xml ~/backup/Content ~/Restored
 ```
 
-### Ver la ayuda del script
+If you only want to specify the input paths but use the default output directory, simply omit the third parameter:
 
-Si en algún momento necesitas recordar cómo usar el script, puedes ejecutar:
+```bash
+node restore-backup.js /path/to/FileSystem.xml /path/to/Content
+```
+
+### Viewing script help
+
+If at any time you need to remember how to use the script, you can run:
 
 ```bash
 node restore-backup.js --help
 ```
 
-Esto mostrará un resumen de los parámetros disponibles y ejemplos de uso.
+This will display a summary of the available parameters and examples of use.
 
-## 📂 Estructura del resultado
+## 📂 Result structure
 
-Una vez que el script termine de ejecutarse, encontrarás una nueva carpeta (por defecto llamada `Restored`) que contiene la estructura completa de tu backup restaurado.
+Once the script has finished running, you will find a new folder (by default called `Restored`) containing the complete structure of your restored backup.
 
-Dentro verás un directorio con el nombre del volumen de almacenamiento original de tu teléfono, típicamente algo como "Almacenamiento interno". Dentro de este directorio encontrarás la jerarquía completa de carpetas tal como estaba en tu teléfono Sony Xperia.
+Inside, you will see a directory with the name of your phone's original storage volume, typically something like “Internal Storage.” Inside this directory, you will find the complete folder hierarchy as it was on your Sony Xperia phone.
 
-Por ejemplo, si tu backup contenía música organizada en carpetas por artista, verás algo como esto:
+For example, if your backup contained music organized into folders by artist, you will see something like this:
 
 ```
 Restored/
-└── Almacenamiento interno/
+└── Internal Storage/
     ├── Music/
     │   ├── Linkin Park/
     │   │   └── Hybrid Theory/
@@ -165,65 +194,65 @@ Restored/
     │   └── loop_hiphop.mp3
     └── DCIM/
         └── Camera/
-            └── (tus fotos)
+            └── (your photos)
 ```
 
-Todos los archivos tendrán sus nombres originales restaurados, las fechas de modificación originales preservadas, y estarán organizados exactamente como los tenías en tu teléfono.
-
-## 🔍 Qué hace el script internamente
-
-Para los curiosos que quieran entender cómo funciona el proceso, aquí hay una explicación del flujo de trabajo del script.
-
-Primero, el script lee el archivo `FileSystem.xml` y lo convierte de formato XML a una estructura de datos que JavaScript puede manipular fácilmente. Este XML contiene toda la información sobre la estructura de directorios del teléfono.
-
-Luego, el script recorre el árbol de directorios definido en el XML de forma recursiva. Esto significa que comienza en la raíz y va explorando cada carpeta, y dentro de cada carpeta busca subcarpetas, y así sucesivamente hasta llegar a todos los archivos.
-
-Para cada carpeta que encuentra en el XML, el script crea el directorio correspondiente en tu disco. Para cada archivo que encuentra, el script busca el archivo real en el directorio `Content` usando el Content-Id (el nombre UUID), lo copia a la ubicación correcta en la estructura restaurada, y lo renombra con el nombre original del archivo.
-
-Además, el script parsea las fechas de modificación que están almacenadas en el XML en un formato especial ISO (por ejemplo, `20120816T091108Z` representa el 16 de agosto de 2012 a las 09:11:08 UTC) y las aplica a los archivos copiados para que mantengan sus fechas originales.
-
-Durante todo el proceso, el script muestra información en la consola sobre qué está haciendo, incluyendo cada carpeta que crea y cada archivo que copia. Al final, muestra un resumen con el número total de carpetas creadas, archivos copiados y cualquier error que haya ocurrido.
+All files will have their original names restored, their original modification dates preserved, and will be organized exactly as you had them on your phone.
 
 
-## 💡 Nota sobre la restauración de datos de aplicaciones
+## 🔍 What the script does internally
 
-Este proyecto se centra en **restaurar el sistema de ficheros** a partir de un backup creado con **Sony PC Companion**.  
-Actualmente **no restaura la información ni los datos de las aplicaciones** incluidas en el respaldo.
+For those who are curious about how the process works, here is an explanation of the script's workflow.
 
-Durante la investigación de esta limitación encontré algunos proyectos que afirman poder extraer o manejar la información de las aplicaciones desde los backups `.dbk` de Sony PC Companion.  
-No los he probado personalmente, por lo que **no puedo garantizar su funcionamiento ni recomendar su uso**, pero los menciono a modo de referencia por si resultan útiles a otros desarrolladores o usuarios interesados:
+First, the script reads the `FileSystem.xml` file and converts it from XML format to a data structure that JavaScript can easily manipulate. This XML contains all the information about the phone's directory structure.
 
-- [Extract Data from Sony PC Companion Backup](https://deml.io/blog/extract-data-sony-pc-companion-backup/) — por **Johannes Deml**, basado en un *fork* del proyecto de Nikolay Elenkov.  
-  📦 Código fuente: [github.com/JohannesDeml/pc-companion-restore-data](https://github.com/JohannesDeml/pc-companion-restore-data)
-- [Android Backup Extractor](https://github.com/nelenkov/android-backup-extractor) — proyecto original de **Nikolay Elenkov**
+Then, the script recursively traverses the directory tree defined in the XML. This means that it starts at the root and explores each folder, and within each folder it looks for subfolders, and so on until it reaches all the files.
+
+For each folder it finds in the XML, the script creates the corresponding directory on your disk. For each file it finds, the script searches for the actual file in the `Content` directory using the Content-Id (the UUID name), copies it to the correct location in the restored structure, and renames it with the original file name.
+
+In addition, the script parses the modification dates that are stored in the XML in a special ISO format (for example, `20120816T091108Z` represents August 16, 2012, at 09:11:08 UTC) and applies them to the copied files so that they retain their original dates.
+
+Throughout the process, the script displays information in the console about what it is doing, including every folder it creates and every file it copies. At the end, it displays a summary with the total number of folders created, files copied, and any errors that occurred.
+
+## 💡 Note on restoring application data
+
+This project focuses on **restoring the file system** from a backup created with **Sony PC Companion**.  
+Currently, it **does not restore the information or data from the applications** included in the backup.
+
+While researching this limitation, I found some projects that claim to be able to extract or manage application information from Sony PC Companion `.dbk` backups.  
+I have not tested them personally, so **I cannot guarantee their functionality or recommend their use**, but I mention them for reference in case they are useful to other developers or interested users:
+
+- [Extract Data from Sony PC Companion Backup](https://deml.io/blog/extract-data-sony-pc-companion-backup/) — by Johannes Deml, based on a fork of Nikolay Elenkov's project.  
+  📦 Source code: [github.com/JohannesDeml/pc-companion-restore-data](https://github.com/JohannesDeml/pc-companion-restore-data)
+- [Android Backup Extractor](https://github.com/nelenkov/android-backup-extractor) — original project by **Nikolay Elenkov**
 
 
-> Úsese esta información bajo su propia responsabilidad.
+> Use this information at your own risk.
 
-## ⚠️ Solución de problemas
+Troubleshooting
 
-Si el script no encuentra el archivo `FileSystem.xml` o el directorio `Content`, verás un mensaje de error claro indicando qué falta. Asegúrate de que las rutas que proporcionaste son correctas y que los archivos existen.
+If the script cannot locate the `FileSystem.xml` file or the `Content` directory, you will see a clear error message indicating what is missing. Ensure that the paths you provided are correct and that the files exist.
 
-Si ves advertencias sobre archivos no encontrados (por ejemplo, "Archivo no encontrado: {XXXX-...}.mp3"), significa que el XML hace referencia a un archivo que no existe en el directorio Content. Esto puede suceder si el backup está incompleto o corrupto. El script continuará procesando los demás archivos.
+If you see warnings about missing files (for example, “File not found: {XXXX-...}.mp3”), it means that the XML references a file that does not exist in the Content directory. This can happen if the backup is incomplete or corrupted. The script will continue processing the other files.
 
-Si algunos archivos no se copian correctamente, el script mostrará un mensaje de error específico. Esto puede deberse a problemas de permisos de escritura, falta de espacio en disco, o nombres de archivo problemáticos. Revisa los mensajes de error para identificar el problema específico.
+If some files are not copied correctly, the script will display a specific error message. This may be due to write permission issues, lack of disk space, or problematic file names. Check the error messages to identify the specific problem.
 
-En sistemas Windows, si los nombres de ruta contienen espacios, asegúrate de envolverlos entre comillas dobles. Por ejemplo: `"C:\Mis Documentos\Backup\FileSystem.xml"`.
+On Windows systems, if path names contain spaces, make sure to enclose them in double quotes. For example: `“C:\My Documents\Backup\FileSystem.xml”`.
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto es de código abierto y está disponible bajo la licencia MIT. Esto significa que eres libre de usar, modificar y distribuir este código como desees, incluso para proyectos comerciales, siempre que incluyas el aviso de copyright original.
+This project is open source and available under the MIT license. This means you are free to use, modify, and distribute this code as you wish, even for commercial projects, as long as you include the original copyright notice.
 
-## 🤝 Contribuciones
+## 🤝 Contributions
 
-Las contribuciones son bienvenidas y apreciadas. Si encuentras un bug, tienes una idea para mejorar el script, o quieres agregar nueva funcionalidad, no dudes en abrir un issue o enviar un pull request en GitHub.
+Contributions are welcome and appreciated. If you find a bug, have an idea to improve the script, or want to add new functionality, feel free to open an issue or send a pull request on GitHub.
 
-Algunas ideas para futuras mejoras podrían incluir: una interfaz gráfica para usuarios menos técnicos, soporte para otros tipos de backups de Sony, validación de integridad de archivos, o generación de un reporte detallado del proceso de restauración.
+Some ideas for future improvements could include: a graphical interface for less technical users, support for other types of Sony backups, file integrity validation, or generation of a detailed report of the restoration process.
 
-## 📧 Soporte
+## 📧 Support
 
-Si tienes problemas usando el script o preguntas sobre cómo recuperar tu backup de Sony Xperia, puedes abrir un issue en el repositorio de GitHub. Intenta incluir la mayor cantidad de detalles posible sobre tu situación, incluyendo el sistema operativo que usas, la versión de Node.js, y cualquier mensaje de error que veas.
+If you have problems using the script or questions about how to recover your Sony Xperia backup, you can open an issue in the GitHub repository. Try to include as many details as possible about your situation, including the operating system you are using, the version of Node.js, and any error messages you see.
 
 ---
 
-**Nota importante**: Este script es una herramienta de la comunidad y no está afiliado oficialmente con Sony. Se proporciona "tal cual", sin garantías de ningún tipo. Siempre mantén copias de seguridad de tus datos importantes antes de procesarlos con cualquier herramienta.
+**Important note**: This script is a community tool and is not officially affiliated with Sony. It is provided “as is,” without warranty of any kind. Always keep backups of your important data before processing it with any tool.
