@@ -14,7 +14,7 @@
    * [📂 Estructura del resultado](#-estructura-del-resultado)
    * [🔍 Qué hace el script internamente](#-qué-hace-el-script-internamente)
    * [💡 Nota sobre la restauración de datos de aplicaciones](#-nota-sobre-la-restauración-de-datos-de-aplicaciones)
-   * [⚠️ Solución de problemas](#-solución-de-problemas)
+   * [⚠️ Solución de problemas](#%EF%B8%8F-solución-de-problemas)
    * [📄 Licencia](#-licencia)
    * [🤝 Contribuciones](#-contribuciones)
    * [📧 Soporte](#-soporte)

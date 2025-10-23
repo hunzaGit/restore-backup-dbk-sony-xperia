@@ -15,7 +15,7 @@
    * [📂 Result structure](#-result-structure)
    * [🔍 What the script does internally](#-what-the-script-does-internally)
    * [💡 Note on restoring application data](#-note-on-restoring-application-data)
-   * [⚠️ Troubleshooting](#-troubleshooting)
+   * [⚠️ Troubleshooting](#%EF%B8%8F-troubleshooting)
    * [📄 License](#-license)
    * [🤝 Contributions](#-contributions)
    * [📧 Support](#-support)
@@ -201,6 +201,7 @@ I have not tested them personally, so **I cannot guarantee their functionality o
 
 
 > Use this information at your own risk.
+
 
 ## ⚠️ Troubleshooting
 
