@@ -1,6 +1,6 @@
 # Índice
 - [Sony Xperia Backup Restorer](#Sony-Xperia-Backup-Restorer)
-  - [📖 ¿Por qué existe este proyecto?](#¿Por-qué-existe-este-proyecto)
+  - [📖 ¿Por qué existe este proyecto?](#-por-qué-existe-este-proyecto)
     - [El problema técnico](#El-problema-técnico)
   - [🎯 ¿Qué hace este script?](#🎯-¿Qué-hace-este-script)
   - [🔧 Requisitos previos](#🔧-Requisitos-previos)
