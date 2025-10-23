@@ -1,0 +1,18 @@
+{
+    "name": "restore-backup-xperia-s",
+    "version": "1.0.0",
+    "main": "restore_backup.js",
+    "type": "module",
+    "authors": [
+        "Rodrigo de Miguel González"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "description": "",
+    "dependencies": {
+        "xml2js": "^0.6.2"
+    }
+}
